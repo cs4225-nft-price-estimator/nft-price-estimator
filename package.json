@@ -1,0 +1,23 @@
+{
+  "name": "cs4225-project",
+  "version": "1.0.0",
+  "description": "CS4225/5425 project",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "format": "prettier --write \"**/*.(js|json)\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cs4225-nft-price-estimator/nft-price-estimator.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/cs4225-nft-price-estimator/nft-price-estimator/issues"
+  },
+  "homepage": "https://github.com/cs4225-nft-price-estimator/nft-price-estimator#readme",
+  "dependencies": {
+    "prettier": "^2.6.0"
+  }
+}
