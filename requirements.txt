@@ -1,3 +1,10 @@
 cloudscraper==1.2.58
+Flask==2.0.2
+Flask_Cors==3.0.10
+matplotlib==3.5.1
+numpy==1.21.4
+Pillow==8.4.0
+six==1.16.0
+Werkzeug==2.0.2
 Requests>=2.9.2
 requests_toolbelt>=0.9.1
