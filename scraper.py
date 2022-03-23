@@ -3,9 +3,9 @@ import json
 
 scraper = cloudscraper.create_scraper(
     browser={
-        'browser': 'chrome',
+        'browser': 'firefox', # use chrome if this doesnt work
         'platform': 'android',
-        'desktop': False
+        'desktop': True 
     }
 )
 
@@ -49,7 +49,8 @@ def write_json_to_file(filename, json_string):
 # print(get_floor_prices("cool-cats-nft"))
 
 print("RUNNING FOR mirlclub")
-print(get_floor_prices("mirlclub"))
+data = get_floor_prices("mirlclub")
+print(data)
 
 # url='https://opensea.io/collection/cool-cats-nft?tab=activity'
 # try to scrape activity tab for transaction details
