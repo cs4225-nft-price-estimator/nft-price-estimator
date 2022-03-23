@@ -12,6 +12,19 @@ scraper = cloudscraper.create_scraper(
 def filter_typename(dict):
   return dict["__typename"] == "AssetQuantityType"
 
+def filter_images(dict):
+  return dict["__typename"] == "AssetType"
+
+def filter_metadata(dict):
+  if "tokenId" in dict:
+    return {
+      'id': dict["tokenId"],
+      'name': dict["name"],
+      'image': dict["displayImageUrl"]
+    }
+  else:
+    return
+
 def filter_quantityInEth_exists(dict):
   if "quantityInEth" in dict:
     return True
@@ -29,10 +42,14 @@ def get_floor_prices(slug):
   data = json.loads(json_string)
   data_values = data["records"].values() # get all values type...
   data_list = [*data_values]
+  # get metadata of images
+  images = list(filter(filter_images, data_list))
+  images = list(map(filter_metadata, images))
+  # get prices of images
   data_list = list(filter(filter_typename, data_list))
-  data_list = list(filter(filter_quantityInEth_exists, data_list))
-  data_list = list(map(get_floor_price_in_eth, data_list))
-  return data_list
+  prices_data_list = list(filter(filter_quantityInEth_exists, data_list))
+  prices_data_list = list(map(get_floor_price_in_eth, data_list))
+  return prices_data_list, images
 
 def write_data_to_file(filename, data):
   with open(filename, 'w') as f:
