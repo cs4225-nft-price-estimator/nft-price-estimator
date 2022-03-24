@@ -18,7 +18,7 @@ def filter_images(dict):
 def filter_metadata(dict):
   if "tokenId" in dict:
     return {
-      'id': dict["tokenId"],
+      'id': int(dict["tokenId"]),
       'name': dict["name"],
       'image': dict["displayImageUrl"]
     }
@@ -45,11 +45,15 @@ def get_floor_prices(slug):
   # get metadata of images
   images = list(filter(filter_images, data_list))
   images = list(map(filter_metadata, images))
+  images = list(filter(lambda x: x is not None, images))
   # get prices of images
   data_list = list(filter(filter_typename, data_list))
   prices_data_list = list(filter(filter_quantityInEth_exists, data_list))
-  prices_data_list = list(map(get_floor_price_in_eth, data_list))
-  return prices_data_list, images
+  prices_data_list = list(map(get_floor_price_in_eth, prices_data_list))
+  prices_data_list = sorted(prices_data_list)
+  
+  result = list(zip(prices_data_list, images))
+  return result
 
 def write_data_to_file(filename, data):
   with open(filename, 'w') as f:
@@ -61,13 +65,23 @@ def write_json_to_file(filename, json_string):
     f.write(json_string)
   f.close()
 
-# scraping floor prices from opensea
-# print("RUNNING FOR cool-cats-nft")
-# print(get_floor_prices("cool-cats-nft"))
+# Structure (priceInEth: float, { id: int, name: str, image: str })
+def scrape_slug(slug: str):
+  print("================ Running for {} ================".format(slug))
+  try:
+    data = get_floor_prices(slug)
+    print("Total {} NFTS scraped".format(len(data)))
+    for obj in data:
+      print(obj)
+  except:
+    print("@@@@@@@@@@@@@@ ERROR ERROR ERROR @@@@@@@@@@@@@@@")
+  print("=================== Ended ========================")
 
-print("RUNNING FOR mirlclub")
-data = get_floor_prices("mirlclub")
-print(data)
-
-# url='https://opensea.io/collection/cool-cats-nft?tab=activity'
-# try to scrape activity tab for transaction details
+from scraper_source import slugs
+# TEST
+test = input('Scrape all? (Y/N)')
+if test == 'Y' or test == 'y' or test == 'yes':
+  for collection in slugs:
+    scrape_slug(collection)
+    
+scrape_slug(slugs[2])
