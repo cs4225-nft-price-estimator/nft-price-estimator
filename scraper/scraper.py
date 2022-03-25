@@ -1,7 +1,10 @@
 import cloudscraper
 import json
+import os 
 import scraper_utils
 from scraper_source import slugs
+
+dir_path = os.path.dirname(os.path.realpath(__file__)) # get current directory
 
 scraper = cloudscraper.create_scraper(
     browser={
@@ -39,7 +42,7 @@ def scrape_slug(slug: str):
   try:
     data = get_floor_prices(slug)
     print("Total {} NFTS scraped".format(len(data)))
-    scraper_utils.write_json_to_file('scraped-collections/{}.json'.format(slug), data)
+    scraper_utils.write_json_to_file('{}/scraped-collections/{}.json'.format(dir_path, slug), data)
     for obj in data:
       print(obj)
   except Exception as e:
