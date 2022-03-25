@@ -34,6 +34,14 @@ def filter_quantityInEth_exists(dict):
 def get_floor_price_in_eth(dict):
   return float(dict["quantity"]) / 1000000000000000000
 
+def format_result(pair):
+  return {
+    "price": pair[0],
+    "id": pair[1]["id"],
+    "name": pair[1]["name"],
+    "image": pair[1]["image"]
+  }
+
 def get_floor_prices(slug):
   url = "https://opensea.io/collection/{}?search[sortAscending]=true&search[sortBy]=PRICE&search[toggles][0]=BUY_NOW".format(slug);
   html = scraper.get(url).text
@@ -53,6 +61,7 @@ def get_floor_prices(slug):
   prices_data_list = sorted(prices_data_list)
   
   result = list(zip(prices_data_list, images))
+  result = list(map(format_result, result))
   return result
 
 def write_data_to_file(filename, data):

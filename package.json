@@ -7,7 +7,8 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "format": "prettier --write \"**/*.(js|json)\"",
     "dev": "flask run --host=0.0.0.0",
-    "scrape": "python ./scraper/scraper.py"
+    "scrape": "python ./scraper/scraper.py",
+    "init": "python -m pip install -r requirements.txt"
   },
   "repository": {
     "type": "git",

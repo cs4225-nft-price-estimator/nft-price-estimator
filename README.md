@@ -2,10 +2,14 @@
 
 CS4225/5425 project
 
-## To use scraper
+## To use scraper module
 1. Install Python
-2. `pip install -r requirements.txt`
-3. `python scraper.py`
+2. `yarn install`
+3. `yarn run init`
+4. `yarn run scrape`
+Note: you can use npm if you wish
+
+NFT object data { price: float, id: str, name: str, image: str }
 
 ## Steps to Run Flask App Locally
 1. Clone this repository
