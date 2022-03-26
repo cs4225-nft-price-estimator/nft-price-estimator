@@ -1,2 +1,5 @@
 /node_modules
 /.prettierrc.json
+/**/__pycache__
+/scraper/scraped_collections/*.json
+!/scraper/scraped_collections/sample_mirlclub.json
