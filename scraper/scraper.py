@@ -56,11 +56,39 @@ def scrape_all():
   if test == 'Y' or test == 'y' or test == 'yes':
     for collection in slugs:
       scrape_slug(collection)
-    
+
+def download_scrape_images():
+  scraped_collection_path = "{}/scraped_collections/".format(dir_path)
+  asset_path = "{}/assets".format(dir_path)
+  test = input('Download all images? (Y/N)')
+  if test == 'Y' or test == 'y' or test == 'yes':
+    for file_name in [file for file in os.listdir(scraped_collection_path) if file.endswith('.json')]:
+      slug = file_name[:-5]
+      with open(scraped_collection_path + file_name) as json_file:
+        nfts = json.load(json_file)
+        for nft in nfts:
+          asset_dir_path = "{}/{}".format(asset_path, slug)
+          img_url = nft["image"]
+          nft_filename = "{}.png".format(nft["id"])
+          scraper_utils.download_image(asset_dir_path, nft_filename, img_url)
+  else:
+    test = input('Scrape a particular collection? (Y/N)')
+    if test == 'Y' or test == 'y' or test == 'yes':
+      slug = input('Collection name: ')
+      with open(scraped_collection_path + "{}.json".format(slug)) as json_file:
+        nfts = json.load(json_file)
+        for nft in nfts:
+          asset_dir_path = "{}/{}".format(asset_path, slug)
+          img_url = nft["image"]
+          nft_filename = "{}.png".format(nft["id"])
+          scraper_utils.download_image(asset_dir_path, nft_filename, img_url)
+
 # TEST
+
 def main():
   # scrape_slug(slugs[2])
   scrape_all()
+  download_scrape_images()
 
 if __name__ == "__main__":
     main()

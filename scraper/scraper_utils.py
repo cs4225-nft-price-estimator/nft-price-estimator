@@ -1,5 +1,6 @@
 import json
-
+import requests
+import os
 
 def filter_typename(dict):
   return dict["__typename"] == "AssetQuantityType"
@@ -43,3 +44,13 @@ def write_json_to_file(filename, json_string):
   with open(filename, 'w+') as f:
     json.dump(json_string, f, indent=4)
   f.close()
+  
+def download_image(folder: str, filename: str, image_url: str):
+  if not os.path.exists(folder):
+    os.makedirs(folder)
+  with open(folder + '/' + filename, 'wb') as f:
+    f.write(requests.get(image_url).content)
+    f.close()
+   
+# dir_path = os.path.dirname(os.path.realpath(__file__)) # get current directory
+# scraper_utils.download_image('{}/assets/cool-cats-nft'.format(dir_path), '4807.png', 'https://lh3.googleusercontent.com/VwXwtH0-4-Np1DrsK5X1u102Je_Ju2FUH8yltByPOEKONeEDBNcs6poEjElhKWeAKquhzpdQwqS_hJGV-O-a3iy7GgPjYVLduxAWKdg')
