@@ -3,8 +3,8 @@
 .DS_Store
 /**/__pycache__
 
-/scraper/colletions/*
 /scraper/assets/*
-/scraper/scraped_collections/*.json
+/scraper/scraped_api_collections/*
+/scraper/scraped_collections/*
 !/scraper/scraped_collections/sample_mirlclub.json
 /env

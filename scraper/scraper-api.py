@@ -3,6 +3,7 @@ import requests
 import urllib.request as req
 import os
 from scraper_utils import write_json_to_file
+from scraper_source import slugs
 
 api = 'https://api.opensea.io/api/v1'
 API_KEY = '2f6f419a083c46de9d83ce3dbe7db601'
@@ -32,7 +33,7 @@ def getCollectionContractAddress(slug):
     response = json.loads(response.text)
     return response['collection']['primary_asset_contracts'][0]['address']
 
-def getAsset(contract_address):
+def getAsset(contract_address, c_limit=None):
     # limit = 20
     limit = 50
     assets_endpoint = api + '/assets?order_direction=desc&asset_contract_address={}&limit={}&include_orders=false'.format(contract_address, limit)
@@ -49,8 +50,10 @@ def getAsset(contract_address):
     data = list(map(getMetadata, transacted_assets))
     cursor = response['next']
     c = 0
-    c_limit = 20
-    while (cursor and c < c_limit):
+    # c_limit = 20
+    while (cursor is not None):
+        if c_limit is not None and c >= c_limit:
+            break
         encoded_cursor = req.pathname2url(cursor)
         assets_endpoint_cursor = LAMBDA_ASSET_ENDPOINT_WITH_CURSOR(encoded_cursor)
         response = requests.request("GET", assets_endpoint_cursor, headers=headers)
@@ -65,11 +68,37 @@ def getAsset(contract_address):
 
 dir_path = os.path.dirname(os.path.realpath(__file__)) # get current directory
 
-def scrape_collection_api(slug: str):      
+def scrape_collection_api(slug: str, c_limit=None):      
     addr = getCollectionContractAddress(slug)
     print("Address ={}".format(addr))
-    data = getAsset(addr)
-    write_json_to_file("{dir}/collections/{slug}.json".format(dir=dir_path, slug=slug), data)
+    data = getAsset(addr, c_limit)
+    write_json_to_file("{dir}/scraped_api_collections/{slug}.json".format(dir=dir_path, slug=slug), data)
     print(len(data), "NFTs scraped")
+    hashSet.clear()
 
-scrape_collection_api('cryptopunks')
+def scrape_all_slugs_api():
+    scrape_all = input("Scrape all collections using OpenSea API? (Y/N) ")
+    if scrape_all == 'Y' or scrape_all == 'y' or scrape_all == 'yes':
+        try:
+            c_limit = int(input("Enter limit per api call: "))
+            for slug in slugs:
+                scrape_collection_api(slug, c_limit)
+        except:
+            for slug in slugs:
+                scrape_collection_api(slug)
+    else:
+        scrape_one = input("Scrape one collection using OpenSea API? (Y/N) ")
+        if scrape_one == 'Y' or scrape_one == 'y' or scrape_one == 'yes':
+            slug = input("Enter slug: ")
+            scrape_collection_api(slug)
+
+def main():
+    # Test eg. slug = cryptopunks
+    test_slug = 'cryptopunks'
+    print("-------- Test for test_slug = {} --------".format(test_slug))
+    scrape_collection_api(test_slug)
+    # Scrape all API
+    scrape_all_slugs_api()
+
+if __name__ == "__main__":
+    main()

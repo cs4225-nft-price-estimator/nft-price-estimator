@@ -72,13 +72,13 @@ def download_collection_images(scraped_collection_path, file_name, slug):
       
 def download_scrape_images():
   scraped_collection_path = "{}/scraped_collections/".format(dir_path)
-  test = input('Download all images? (Y/N)')
+  test = input('Download all images? (Y/N) ')
   if test == 'Y' or test == 'y' or test == 'yes':
     for file_name in [file for file in os.listdir(scraped_collection_path) if file.endswith('.json')]:
       slug = file_name[:-5]
       download_collection_images(scraped_collection_path, file_name, slug)
   else:
-    test = input('Scrape a particular collection? (Y/N)')
+    test = input('Scrape a particular collection? (Y/N) ')
     if test == 'Y' or test == 'y' or test == 'yes':
       slug = input('Collection name: ')
       file_name = "{}.json".format(slug)
