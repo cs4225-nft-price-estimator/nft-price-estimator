@@ -7,7 +7,7 @@
 !/scraper/scraped_collections/sample_mirlclub.json
 
 # api collections
-/scraper/colletions/*.json
+/scraper/colletions/*
 
 # assets
 /scraper/assets/*
