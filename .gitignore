@@ -2,9 +2,7 @@
 /.prettierrc.json
 /**/__pycache__
 
-# scraped_collections
-/scraper/scraped_collections/*.json
-!/scraper/scraped_collections/sample_mirlclub.json
-
 # assets
 /scraper/assets/*
+/env
+/scraper/scraped-collections
