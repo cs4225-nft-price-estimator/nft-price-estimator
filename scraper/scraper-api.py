@@ -3,6 +3,7 @@ import requests
 import urllib.request as req
 import os
 from scraper_utils import write_json_to_file
+from scraper_utils import get
 from scraper_source import slugs
 
 api = 'https://api.opensea.io/api/v1'
@@ -19,13 +20,16 @@ def haveSoldBeforeFilter(asset):
     return False
 
 def getMetadata(asset):
-    # if asset['last_sale'] and asset['last_sale']['total_price'] and float(asset['last_sale']['total_price']) > 0:
     return {
         'id': int(asset['token_id']),
         'name': asset['name'],
         'image': asset['collection']['image_url'],
         'price': float(float(asset['last_sale']['total_price'])/1000000000000000000)
     }
+
+def getMetadataOfCurrentSet(dict):
+    transacted_assets = list(filter(haveSoldBeforeFilter, dict))
+    return list(map(getMetadata, transacted_assets))
 
 def getCollectionContractAddress(slug):
     assets_endpoint = api + '/collection/{}'.format(slug)
@@ -34,36 +38,31 @@ def getCollectionContractAddress(slug):
     return response['collection']['primary_asset_contracts'][0]['address']
 
 def getAsset(contract_address, c_limit=None):
-    # limit = 20
     limit = 50
     assets_endpoint = api + '/assets?order_direction=desc&asset_contract_address={}&limit={}&include_orders=false'.format(contract_address, limit)
-    # assets_endpoint_cursor = api + '/assets?order_direction=desc&asset_contract_address={}&limit={}&cursor={}&include_orders=false' # cursor needs to be URL encoded
     LAMBDA_ASSET_ENDPOINT_WITH_CURSOR = lambda cursorX: api + '/assets?order_direction=desc&asset_contract_address={}&limit={}&cursor={}&include_orders=false'.format(contract_address, limit, cursorX)
     headers = {
         "Accept": "application/json",
         "X-API-KEY": API_KEY
     }  
-    response = requests.get(assets_endpoint, headers=headers)
-    response = json.loads(response.text)
+    response = get(assets_endpoint, headers)
     data: list = response['assets']
-    transacted_assets = list(filter(haveSoldBeforeFilter, data))
-    data = list(map(getMetadata, transacted_assets))
+    data = getMetadataOfCurrentSet(data)
     cursor = response['next']
     c = 0
-    # c_limit = 20
-    while (cursor is not None):
-        if c_limit is not None and c >= c_limit:
-            break
-        encoded_cursor = req.pathname2url(cursor)
-        assets_endpoint_cursor = LAMBDA_ASSET_ENDPOINT_WITH_CURSOR(encoded_cursor)
-        response = requests.request("GET", assets_endpoint_cursor, headers=headers)
-        response = json.loads(response.text)
-        cursor = response['next']
-        print(cursor) # Issue: Async call not awaited hence same items are fetched
-        curr = response['assets']
-        transacted_assets = list(filter(haveSoldBeforeFilter, curr))
-        data = data + list(map(getMetadata, transacted_assets))
-        c += 1
+    c_limit = 20
+    with requests.Session() as session:
+        while (cursor):
+            if c_limit is not None and c >= c_limit:
+                break
+            encoded_cursor = req.pathname2url(cursor)
+            assets_endpoint_cursor = LAMBDA_ASSET_ENDPOINT_WITH_CURSOR(encoded_cursor)
+            response = get(assets_endpoint_cursor, headers, session)
+            cursor, curr = response['next'], response['assets']
+            if cursor:
+                print('Iteration {}: '.format(c) + cursor)
+            data.extend(getMetadataOfCurrentSet(curr))
+            c += 1
     return data
 
 dir_path = os.path.dirname(os.path.realpath(__file__)) # get current directory
