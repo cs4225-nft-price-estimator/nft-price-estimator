@@ -1,5 +1,6 @@
 import json
 import requests
+from requests.sessions import Session
 import os
 
 def filter_typename(dict):
@@ -35,12 +36,18 @@ def format_result(pair):
     "image": pair[1]["image"]
   }
 
+def get(endpoint, headers, session:Session):
+  with session.get(endpoint, headers=headers) as response:
+    response = json.loads(response.text)
+    return response
+
 def write_data_to_file(filename, data):
   with open(filename, 'w+') as f:
     json.dump(json.dumps(data, ensure_ascii=False, indent=4), f)
   f.close()
 
 def write_json_to_file(filename, json_string):
+  os.makedirs(os.path.dirname(filename), exist_ok=True) # Create the relevant directory & file not present
   with open(filename, 'w+') as f:
     json.dump(json_string, f, indent=4)
   f.close()
