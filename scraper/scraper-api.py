@@ -35,7 +35,10 @@ def getCollectionContractAddress(slug):
     assets_endpoint = api + '/collection/{}'.format(slug)
     response = requests.get(assets_endpoint)
     response = json.loads(response.text)
-    return response['collection']['primary_asset_contracts'][0]['address']
+    try:
+        return response['collection']['primary_asset_contracts'][0]['address']
+    except:
+        return None
 
 def getAsset(contract_address, c_limit=None):
     limit = 50
@@ -44,8 +47,9 @@ def getAsset(contract_address, c_limit=None):
     headers = {
         "Accept": "application/json",
         "X-API-KEY": API_KEY
-    }  
-    response = get(assets_endpoint, headers)
+    }
+    response = requests.get(assets_endpoint, headers=headers)
+    response = json.loads(response.text)
     data: list = response['assets']
     data = getMetadataOfCurrentSet(data)
     cursor = response['next']
@@ -70,10 +74,13 @@ dir_path = os.path.dirname(os.path.realpath(__file__)) # get current directory
 def scrape_collection_api(slug: str, c_limit=None):      
     addr = getCollectionContractAddress(slug)
     print("Address ={}".format(addr))
-    data = getAsset(addr, c_limit)
-    write_json_to_file("{dir}/scraped_api_collections/{slug}.json".format(dir=dir_path, slug=slug), data)
-    print(len(data), "NFTs scraped")
-    hashSet.clear()
+    if addr is not None:
+        data = getAsset(addr, c_limit)
+        write_json_to_file("{dir}/scraped_api_collections/{slug}.json".format(dir=dir_path, slug=slug), data)
+        print(len(data), "NFTs scraped")
+        hashSet.clear()
+    else:
+        print("Address is not availabled for {}".format(slug))
 
 def scrape_all_slugs_api():
     scrape_all = input("Scrape all collections using OpenSea API? (Y/N) ")
