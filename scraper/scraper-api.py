@@ -77,10 +77,10 @@ def scrape_collection_api(slug: str, c_limit=None):
     if addr is not None:
         data = getAsset(addr, c_limit)
         write_json_to_file("{dir}/scraped_api_collections/{slug}.json".format(dir=dir_path, slug=slug), data)
-        print(len(data), "NFTs scraped")
+        print(len(data), "NFTs scraped for \'{}\'".format(slug))
         hashSet.clear()
     else:
-        print("Address is not availabled for {}".format(slug))
+        print("Address is not availabled for \'{}\'".format(slug))
 
 def scrape_all_slugs_api():
     scrape_all = input("Scrape all collections using OpenSea API? (Y/N) ")
