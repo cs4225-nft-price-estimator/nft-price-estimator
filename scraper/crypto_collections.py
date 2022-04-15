@@ -1,0 +1,23 @@
+final_collections = [
+    'cryptopunks',
+    'azuki',
+    'coolpetsnft',
+    'impostors-genesis-aliens',
+    'official-moar-by-joan-cornella',
+    'mutant-ape-yacht-club',
+    'boredapeyachtclub',
+    'arcade-land',
+    'los-muertos-world',
+    'clonex',
+    'beanzofficial',
+    'official-kreepy-club',
+    'galverse',
+    'hakinft-io',
+    'hikarinftofficial',
+    'shinsekai-portal',
+    'tiny-dinos-eth',
+    'premint-collector',
+    'doodles-official',
+    'sandbox',
+    'froyokittenscollection'
+]
