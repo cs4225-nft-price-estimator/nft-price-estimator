@@ -2,6 +2,8 @@ import json
 import requests
 import urllib.request as req
 import os
+import multiprocessing
+from crypto_collections import final_collections
 from scraper_utils import write_json_to_file
 from scraper_utils import get
 from scraper_source import slugs
@@ -24,7 +26,8 @@ def getMetadata(asset):
         'id': int(asset['token_id']),
         'name': asset['name'],
         'image': asset['collection']['image_url'],
-        'price': float(float(asset['last_sale']['total_price'])/1000000000000000000)
+        'price': float(float(asset['last_sale']['total_price'])/1000000000000000000),
+        'token': asset['last_sale']['payment_token']['symbol']
     }
 
 def getMetadataOfCurrentSet(dict):
@@ -48,30 +51,40 @@ def getAsset(contract_address, c_limit=None):
         "Accept": "application/json",
         "X-API-KEY": API_KEY
     }
-    response = requests.get(assets_endpoint, headers=headers)
-    response = json.loads(response.text)
+    response = get(assets_endpoint, headers=headers, session=None)
     data: list = response['assets']
     data = getMetadataOfCurrentSet(data)
     cursor = response['next']
     c = 0
     c_limit = 20
     with requests.Session() as session:
-        while (cursor):
-            if c_limit is not None and c >= c_limit:
-                break
-            encoded_cursor = req.pathname2url(cursor)
-            assets_endpoint_cursor = LAMBDA_ASSET_ENDPOINT_WITH_CURSOR(encoded_cursor)
-            response = get(assets_endpoint_cursor, headers, session)
-            cursor, curr = response['next'], response['assets']
-            if cursor:
-                print('Iteration {}: '.format(c) + cursor)
-            data.extend(getMetadataOfCurrentSet(curr))
-            c += 1
+        try:
+            while (cursor):
+                if c_limit is not None and c >= c_limit:
+                    break
+                encoded_cursor = req.pathname2url(cursor)
+                assets_endpoint_cursor = LAMBDA_ASSET_ENDPOINT_WITH_CURSOR(encoded_cursor)
+                response = get(assets_endpoint_cursor, headers, session)
+                
+                if not(response): # handle cases where requests is too slow in getting the data
+                    c += 1
+                    continue
+                cursor, curr = response['next'], response['assets']
+                if cursor: # if we have not reached the end of collection
+                    print('Iteration {}: '.format(c) + cursor)
+                    data.extend(getMetadataOfCurrentSet(curr))
+                    c += 1
+                else:
+                    break
+        except Exception as err:
+            print("ERROR getAsset() for {}: ".format(contract_address) + str(err))
+
     return data
 
 dir_path = os.path.dirname(os.path.realpath(__file__)) # get current directory
 
-def scrape_collection_api(slug: str, c_limit=None):      
+def scrape_collection_api(slug: str, c_limit=None): 
+    print("-------- Test for test_slug = {} --------".format(slug))     
     addr = getCollectionContractAddress(slug)
     print("Address ={}".format(addr))
     if addr is not None:
@@ -98,6 +111,13 @@ def scrape_all_slugs_api():
             slug = input("Enter slug: ")
             scrape_collection_api(slug)
 
+def parallelized_scrape():
+    pool = multiprocessing.Pool()
+    pool.map(scrape_collection_api, final_collections)
+    ### To note
+    # chunksize = 5 # for a long set of iterables, assign 5 items as a task to a processor
+    # pool.imap(scrape_collection_api, final_collections, chunksize=chunksize)
+
 def main():
     # Test eg. slug = cryptopunks
     test_slug = 'cryptopunks'
@@ -107,4 +127,5 @@ def main():
     scrape_all_slugs_api()
 
 if __name__ == "__main__":
-    main()
+    parallelized_scrape()
+    # main()
