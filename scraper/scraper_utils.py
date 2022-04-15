@@ -37,9 +37,12 @@ def format_result(pair):
   }
 
 def get(endpoint, headers, session:Session):
-  with session.get(endpoint, headers=headers) as response:
-    response = json.loads(response.text)
-    return response
+  if not(session):
+    response = requests.get(endpoint, headers=headers)
+    return json.loads(response.text)
+  else:  
+    with session.get(endpoint, headers=headers) as response:
+      return json.loads(response.text)
 
 def write_data_to_file(filename, data):
   with open(filename, 'w+') as f:
