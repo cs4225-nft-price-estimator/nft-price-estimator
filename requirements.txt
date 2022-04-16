@@ -1,3 +1,5 @@
+aiohttp==3.8.1
+asyncio==3.4.3
 cloudscraper==1.2.58
 Flask==2.0.2
 Flask_Cors==3.0.10

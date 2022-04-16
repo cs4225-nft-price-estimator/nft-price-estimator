@@ -5,4 +5,9 @@ slugs = [
   'frenlypandas',
   'mirlclub',
   'cool-cats-nft',
+  'cryptopunks',
+  'psychomolly-collection',
+  'psychopunks-nft',
+  'psychokitty-collection',
+  'lofi-guy',
 ]
