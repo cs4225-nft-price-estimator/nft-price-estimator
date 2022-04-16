@@ -1,6 +1,6 @@
 import matplotlib.pyplot as plt
 import tempfile
-from six.moves.urllib.request import urlopen
+from urllib.request import urlopen
 from six import BytesIO
 from PIL import Image
 from PIL import ImageOps
