@@ -45,18 +45,16 @@ from tensorflow.python.keras import metrics as metrics_module
 
 # !unzip "/content/drive/MyDrive/Assets12.zip"
 
-DATADIR = "/content/Assets/Training"
+DATADIR = "/Assets/Training"
 
 import os
-DIR = "/content/Assets/Training"
 
 # !ls
 
 # if you want to list all the contents in DIR
-CATEGORIES = [entry for entry in os.listdir(DIR)]
+CATEGORIES = [entry for entry in os.listdir(DATADIR)]
 print(CATEGORIES)
 
-print(CATEGORIES)
 IMG_SIZE= 150
 training_data = []
 def create_training_data():
@@ -76,7 +74,7 @@ print(training_data)
 testing_data = []
 
 import os
-DATA_TEST_DIR = "/content/Assets/Testing"
+DATA_TEST_DIR = "/Assets/Testing"
 
 TEST_CATEGORIES = [entry for entry in os.listdir(DATA_TEST_DIR)]
 
