@@ -112,8 +112,10 @@ def scrape_all_slugs_api():
             scrape_collection_api(slug)
 
 def parallelized_scrape():
-    pool = multiprocessing.Pool()
-    pool.map(scrape_collection_api, final_collections)
+    with multiprocessing.Pool(5) as p:
+        p.map(scrape_collection_api, final_collections);
+    # pool = multiprocessing.Pool()
+    # pool.map(scrape_collection_api, final_collections)
     ### To note
     # chunksize = 5 # for a long set of iterables, assign 5 items as a task to a processor
     # pool.imap(scrape_collection_api, final_collections, chunksize=chunksize)

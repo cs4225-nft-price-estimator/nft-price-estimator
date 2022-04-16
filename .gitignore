@@ -6,5 +6,4 @@
 /scraper/assets/*
 /scraper/scraped_api_collections/*
 /scraper/scraped_collections/*
-!/scraper/scraped_collections/sample_mirlclub.json
 /env
