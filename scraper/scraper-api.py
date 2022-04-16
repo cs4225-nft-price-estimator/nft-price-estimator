@@ -9,7 +9,7 @@ from scraper_utils import get
 from scraper_source import slugs
 
 api = 'https://api.opensea.io/api/v1'
-API_KEY = '2f6f419a083c46de9d83ce3dbe7db601'
+API_KEY = '9516f08f8dc64145aff214a288cb7795'
 test_address = '0xb47e3cd837ddf8e4c57f05d70ab865de6e193bbb'
 url = "https://api.opensea.io/api/v1/assets?order_direction=desc&asset_contract_address={test_address}&limit=20&cursor=LXBrPTUzMTA1Mg%3D%3D&include_orders=false".format(test_address=test_address)
 
