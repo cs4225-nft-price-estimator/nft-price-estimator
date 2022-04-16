@@ -49,10 +49,12 @@ def write_data_to_file(filename, data):
     json.dump(json.dumps(data, ensure_ascii=False, indent=4), f)
   f.close()
 
-def write_json_to_file(filename, json_string):
+def write_json_to_file(filename, json_arr):
   os.makedirs(os.path.dirname(filename), exist_ok=True) # Create the relevant directory & file not present
   with open(filename, 'w+') as f:
-    json.dump(json_string, f, indent=4)
+    for i in json_arr:
+      json.dump(i, f)
+      f.write("\n")
   f.close()
   
 def download_image(folder: str, filename: str, image_url: str):
