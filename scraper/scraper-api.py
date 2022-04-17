@@ -25,7 +25,7 @@ def getMetadata(asset):
     return {
         'id': int(asset['token_id']),
         'name': asset['name'],
-        'image': asset['collection']['image_url'],
+        'image': asset['image_url'],
         'price': float(float(asset['last_sale']['total_price'])/1000000000000000000),
         'token': asset['last_sale']['payment_token']['symbol']
     }
@@ -112,17 +112,17 @@ def scrape_all_slugs_api():
             scrape_collection_api(slug)
 
 def parallelized_scrape():
-    pool = multiprocessing.Pool()
+    pool = multiprocessing.Pool(4)
     pool.map(scrape_collection_api, final_collections)
     ### To note
     # chunksize = 5 # for a long set of iterables, assign 5 items as a task to a processor
     # pool.imap(scrape_collection_api, final_collections, chunksize=chunksize)
-
 def main():
     # Test eg. slug = cryptopunks
-    test_slug = 'cryptopunks'
-    print("-------- Test for test_slug = {} --------".format(test_slug))
-    scrape_collection_api(test_slug)
+    # test_slug = 'cryptopunks'
+    # print("-------- Test for test_slug = {} --------".format(test_slug))
+    # for col in final_collections:
+    #     scrape_collection_api(col)
     # Scrape all API
     scrape_all_slugs_api()
 
