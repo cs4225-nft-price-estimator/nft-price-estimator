@@ -119,12 +119,12 @@ def parallelized_scrape():
     ### To note
     # chunksize = 5 # for a long set of iterables, assign 5 items as a task to a processor
     # pool.imap(scrape_collection_api, final_collections, chunksize=chunksize)
-
 def main():
     # Test eg. slug = cryptopunks
-    test_slug = 'cryptopunks'
-    print("-------- Test for test_slug = {} --------".format(test_slug))
-    scrape_collection_api(test_slug)
+    # test_slug = 'cryptopunks'
+    # print("-------- Test for test_slug = {} --------".format(test_slug))
+    # for col in final_collections:
+    #     scrape_collection_api(col)
     # Scrape all API
     scrape_all_slugs_api()
 
