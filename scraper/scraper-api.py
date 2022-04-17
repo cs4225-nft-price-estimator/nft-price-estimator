@@ -25,7 +25,7 @@ def getMetadata(asset):
     return {
         'id': int(asset['token_id']),
         'name': asset['name'],
-        'image': asset['collection']['image_url'],
+        'image': asset['image_url'],
         'price': float(float(asset['last_sale']['total_price'])/1000000000000000000),
         'token': asset['last_sale']['payment_token']['symbol']
     }
