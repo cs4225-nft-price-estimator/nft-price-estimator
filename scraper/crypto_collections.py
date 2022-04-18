@@ -42,7 +42,7 @@ final_collections = [
     'worldwidewebbland',
     'bored-ape-kennel-club',
     'alienfrensnft',
-    'quantum-access-pass',
+    # 'quantum-access-pass', #UNOPENED
     'unemployables',
     'mfers',
     'akumaorigins',
@@ -104,7 +104,7 @@ final_collections = [
     'forgottenruneswizardscult',
     'coniun-pass',
     'the-sandbox-shibuya-land-sale',
-    'the-seekers',
+    # 'the-seekers', # UNOPENED
     'metroverse-genesis',
     'hapeprime',
     'collectvoxthewalkingdead',

@@ -128,6 +128,14 @@ def main():
     # Scrape all API
     scrape_all_slugs_api()
 
+rescrape = [
+    'the-picaroons',
+    'the-seekers',
+    'mirlclub'
+]
 if __name__ == "__main__":
+    # for col in rescrape:
+    #     scrape_collection_api(col)
+    
     parallelized_scrape()
     # main()
