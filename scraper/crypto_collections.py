@@ -2,7 +2,7 @@ final_collections = [
     'proof-moonbirds',
     # 'cryptopunks', #No Floorprice
     'azuki',
-    'coolpetsnft',
+    # 'coolpetsnft', #UNOPENED
     'impostors-genesis-aliens',
     'official-moar-by-joan-cornella',
     'mutant-ape-yacht-club',
@@ -10,7 +10,7 @@ final_collections = [
     'arcade-land',
     'los-muertos-world',
     'clonex',
-    'beanzofficial',
+    # 'beanzofficial', #UNOPENED
     'official-kreepy-club',
     'galverse',
     'hakinft-io',
@@ -24,7 +24,7 @@ final_collections = [
     'cool-cats-nft',
     'rtfkt-mnlth',
     'milady',
-    'akutar-mint-pass',
+    # 'akutar-mint-pass', #UNOPENED
     'proof-collective',
     'everai-heroes-duo',
     'alien-frens-evolution',
@@ -34,12 +34,12 @@ final_collections = [
     'vaynersports-pass-vsp',
     'veefriends',
     'cyberbrokers',
-    'veefriends-series-2',
+    # 'veefriends-series-2', #UNOPENED
     'thelobstars',
     'world-of-women-galaxy',
     'quirkiesoriginals',
     'adidasoriginals',
-    'worldwidewebbland',
+    # 'worldwidewebbland', #UNOPENED
     'bored-ape-kennel-club',
     'alienfrensnft',
     # 'quantum-access-pass', #UNOPENED
@@ -48,11 +48,11 @@ final_collections = [
     'akumaorigins',
     'the-picaroons',
     'toxic-skulls-club',
-    '0xogpass',
+    # '0xogpass', #UNOPENED
     'bored-ape-chemistry-club',
     # 'art-blocks', #No Floorprice
     'monkey-legends',
-    'bff-friendship-bracelets',
+    # 'bff-friendship-bracelets', #UNOPENED
     'megakongs',
     'the-artieverse',
     'gh0stlygh0sts',
@@ -77,7 +77,7 @@ final_collections = [
     'gnssart',
     'cyber-factory-2',
     'karafuru',
-    'baosociety-official',
+    # 'baosociety-official', #UNOPENED
     'bobutoken',
     'antebellumgenesisland',
     'kureiji-nft-official',
@@ -97,12 +97,12 @@ final_collections = [
     'oof-collective-official',
     'gutter-clones',
     'loser-club-official',
-    'ghxsts-comics',
-    'gutter-juice',
+    # 'ghxsts-comics', #UNOPENED
+    # 'gutter-juice', #UNOPENED
     'fortune-friends-club-official-nft',
     'projectnanopass',
     'forgottenruneswizardscult',
-    'coniun-pass',
+    # 'coniun-pass', #UNOPENED
     'the-sandbox-shibuya-land-sale',
     # 'the-seekers', # UNOPENED
     'metroverse-genesis',
@@ -114,14 +114,14 @@ final_collections = [
     'nyokies',
     'genesis-creepz',
     'quackyducksofficial',
-    'cyberronin-haruka',
+    # 'cyberronin-haruka', #UNOPENED
     'capsulehouse',
     'coolmans-universe',
     'cyberkongz',
     'kaiju-kingz',
     'cryptoadz-by-gremplin',
     'tubby-cats',
-    'firstdayout',
+    # 'firstdayout', #UNOPENED
     'deadfellaz',
     'metakages-official-collection',
     'psychedelics-anonymous-genesis',
@@ -139,7 +139,7 @@ final_collections = [
     'omni-mosquitoes-eth',
     'rtfkt-podx',
     'wolf-game',
-    'huxley-comics',
+    # 'huxley-comics', #UNOPENED
     'thewalkingdeadofficialdarylmotorcycles',
     # 'sunmiya-club-official', #NOT ETH,
     'bapetaverse-official',
@@ -156,9 +156,9 @@ final_collections = [
     'bapetaverse-official',
     'the-squishiverse',
     'mirandus',
-    'the-meta-kongz',
+    # 'the-meta-kongz',  #UNOPENED
     'etherthings',
-    'space-boo-official-nft',
+    # 'space-boo-official-nft', #UNOPENED
     'officialkenkyo',
     'felinefiendznft',
     'women-unite-10k-assemble',
@@ -174,7 +174,7 @@ final_collections = [
     'pixel-vault-mintpass',
     'guttercatgang',
     'pjppfl',
-    'clonex-mintvial',
+    # 'clonex-mintvial', #UNOPENED
     'fools-nft',
     'notbanksyrain',
     'metahero-generative',
@@ -188,9 +188,9 @@ final_collections = [
     'cyberkongz-vx',
     'alphakongsclub',
     'mad-meerkat-burrow',
-    'yakuza-pandas',
+    # 'yakuza-pandas', #UNOPENED
     'treeverse',
-    'retro-arcade-collection',
+    # 'retro-arcade-collection', #UNOPENED
     'moonbirdpunks',
     'grayboys',
     'theshiboshis',
@@ -200,10 +200,11 @@ final_collections = [
     'pet-rock',
     'chain-runners-nft',
     'smallbros',
-    'lasercat-nft',
+    # 'lasercat-nft', #UNOPENED
     'raidparty',
     'mirlclub',
     'ballies',
     'mad-hare-society-2',
     'mad-hare-society-1',
+    'frenlypandas',
 ]

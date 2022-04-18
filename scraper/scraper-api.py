@@ -129,13 +129,13 @@ def main():
     scrape_all_slugs_api()
 
 rescrape = [
-    'the-picaroons',
-    'the-seekers',
-    'mirlclub'
+    # 'the-picaroons',
+    # 'mirlclub',
+    'frenlypandas',
 ]
 if __name__ == "__main__":
-    # for col in rescrape:
-    #     scrape_collection_api(col)
+    for col in rescrape:
+        scrape_collection_api(col)
     
-    parallelized_scrape()
+    # parallelized_scrape() #dangerous command
     # main()
