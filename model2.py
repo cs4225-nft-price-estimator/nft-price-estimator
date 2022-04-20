@@ -41,21 +41,15 @@ from tensorflow.python.keras import models
 from tensorflow.python.keras import backend
 from tensorflow.python.keras import metrics as metrics_module
 
-# !rm -rf ./Assets
-
-# !unzip "/content/drive/MyDrive/Assets12.zip"
-
-DATADIR = "/Assets/Training"
+DATADIR = "/content/Assets/Training"
 
 import os
-
-# !ls
+DIR = "/content/Assets/Training"
 
 # if you want to list all the contents in DIR
-CATEGORIES = [entry for entry in os.listdir(DATADIR)]
-print(CATEGORIES)
+CATEGORIES = [entry for entry in os.listdir(DIR)]
 
-IMG_SIZE= 150
+IMG_SIZE= 150  
 training_data = []
 def create_training_data():
     for category in CATEGORIES:                                                # Looping over each category from the CATEGORIES list
@@ -74,7 +68,7 @@ print(training_data)
 testing_data = []
 
 import os
-DATA_TEST_DIR = "/Assets/Testing"
+DATA_TEST_DIR = "/content/Assets/Testing"
 
 TEST_CATEGORIES = [entry for entry in os.listdir(DATA_TEST_DIR)]
 

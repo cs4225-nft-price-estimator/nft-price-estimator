@@ -155,14 +155,14 @@ final_collections = [
     'spaceridersnft',
     'bapetaverse-official',
     'the-squishiverse',
-    'mirandus',
+    # 'mirandus', #missing
     # 'the-meta-kongz',  #UNOPENED
     'etherthings',
     # 'space-boo-official-nft', #UNOPENED
     'officialkenkyo',
     'felinefiendznft',
     'women-unite-10k-assemble',
-    'chromie-squiggle-by-snowfro',
+    # 'chromie-squiggle-by-snowfro', #missing
     'lilium',
     'pixel-interfaces',
     'mypethooligan',
