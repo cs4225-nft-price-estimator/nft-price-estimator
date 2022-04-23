@@ -42,6 +42,11 @@ NFT object data { price: float, id: str, name: str, image: str }
     export FLASK_ENV=development
     flask run
     ```
+    Windows:
+    ```sh
+    $env:FLASK_ENV = "development"
+    flask run
+    ```
 
 5. (Optional) If you want to expose host and trust users on your network, you can make the server publicly available by adding --host=0.0.0.0 to the Flask run command.
     ```sh

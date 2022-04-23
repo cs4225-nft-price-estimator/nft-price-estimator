@@ -1,6 +1,8 @@
+import os
 import matplotlib.pyplot as plt
 import tempfile
 from urllib.request import urlopen
+import numpy as np
 from six import BytesIO
 from PIL import Image
 from PIL import ImageOps
@@ -17,7 +19,12 @@ from io import BytesIO
 # from sklearn import model_selection
 import pickle
 from sklearn.linear_model import LinearRegression
-
+from PIL import Image
+import tensorflow as tf
+from tensorflow import keras
+from keras.preprocessing import image
+from keras.applications.vgg16 import preprocess_input
+from keras.applications.vgg16 import VGG16
 
 def display_image(image):
   fig = plt.figure(figsize=(20, 15))
@@ -47,7 +54,7 @@ UPLOAD_FOLDER = 'static/uploads/'
 
 app.secret_key = "secret key"
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
-app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024
+# app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024
  
 ALLOWED_EXTENSIONS = set(['png', 'jpg', 'jpeg', 'gif'])
  
@@ -81,23 +88,39 @@ def upload_image():
         flash('Allowed image types are - png, jpg, jpeg, gif')
         return redirect(request.url)
 
+model = VGG16(weights="imagenet", include_top=False)
+
 @app.route('/api/estimate', methods=['POST'])
 def classify():
     print("called... wait 5 seconds")
-    time.sleep(5)
+    # time.sleep(5)
     data = request.get_json()
-    img = data['image_b64']
-    print('Type of img = {}'.format(type(img)))
-    classified_img = img
+    img_base64 = data['image_b64']
+    print('Type of img = {}'.format(type(img_base64)))
+    base64_img_bytes = img_base64.encode('utf-8')
+    path = os.path.join(app.config['UPLOAD_FOLDER'], 'target_img.png')
+    with open(path, 'wb') as file_to_save:
+        decoded_image_data = base64.decodebytes(base64_img_bytes)
+        file_to_save.write(decoded_image_data)
+    try:
+        img = image.load_img(path, target_size=(224, 224))
+    except Exception as e: 
+        print('Error loading image: {}'.format(e))
+    img = tf.io.read_file(path)
+    img = tf.image.decode_jpeg(img, channels=3)
+    img_array = image.img_to_array(img)
+    img_array = np.expand_dims(img_array, axis=0)
+    img_array = preprocess_input(img_array)
     try:
         filename = 'nft_estimator_model.sav'
-        loaded_model: LinearRegression = pickle.load(open(filename, 'rb'))
-        # result = loaded_model.predict(img)
-        print('Model loaded, type = {}'.format(type(loaded_model)))
-        # return jsonify({'classified_b64': classified_img, 'result': result})
-    except:
-        print('Error loading model')   
-    return jsonify({'classified_b64': classified_img})
+        nft_model: LinearRegression = pickle.load(open(filename, 'rb'))
+        features = model.predict(img_array)
+        feature = features[0].flatten()
+        print(feature.shape)
+        # print(result.shape())
+    except Exception as e:
+        print('Error loading model, error = {}'.format(e))   
+    return jsonify({'classified_b64': img_base64})
 
 if __name__ == "__main__":
     app.run(debug=True)
