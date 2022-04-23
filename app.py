@@ -92,8 +92,8 @@ model = VGG16(weights="imagenet", include_top=False)
 
 @app.route('/api/estimate', methods=['POST'])
 def classify():
-    print("called... wait 3 seconds to add loading effect")
-    time.sleep(3)
+    print("called... wait 2 seconds to add loading effect")
+    time.sleep(2)
     data = request.get_json()
     img_base64 = data['image_b64']
     print('Type of img = {}'.format(type(img_base64)))
@@ -123,7 +123,7 @@ def classify():
         return jsonify({'classified_b64': img_base64, 'price': estimated_price})
     except Exception as e:
         print('Error loading model, error = {}'.format(e))   
-    return jsonify({'classified_b64': img_base64})
+    return jsonify({'classified_b64': img_base64, 'price': "-1"})
 
 if __name__ == "__main__":
     app.run(debug=True)
