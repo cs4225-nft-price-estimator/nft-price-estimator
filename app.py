@@ -92,8 +92,8 @@ model = VGG16(weights="imagenet", include_top=False)
 
 @app.route('/api/estimate', methods=['POST'])
 def classify():
-    print("called... wait 5 seconds")
-    # time.sleep(5)
+    print("called... wait 3 seconds to add loading effect")
+    time.sleep(3)
     data = request.get_json()
     img_base64 = data['image_b64']
     print('Type of img = {}'.format(type(img_base64)))
