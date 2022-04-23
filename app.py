@@ -115,9 +115,10 @@ def classify():
         filename = 'nft_estimator_model.sav'
         nft_model: LinearRegression = pickle.load(open(filename, 'rb'))
         features = model.predict(img_array)
-        feature = features[0].flatten()
-        print(feature.shape)
-        # print(result.shape())
+        feature = features[0].flatten()[:25088]
+        feature_arr = feature.reshape(1,25088)
+        result = nft_model.predict(feature_arr)
+        print('Price in eth = {}'.format(result[0]))
     except Exception as e:
         print('Error loading model, error = {}'.format(e))   
     return jsonify({'classified_b64': img_base64})
