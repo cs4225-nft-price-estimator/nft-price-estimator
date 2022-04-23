@@ -118,7 +118,9 @@ def classify():
         feature = features[0].flatten()[:25088]
         feature_arr = feature.reshape(1,25088)
         result = nft_model.predict(feature_arr)
-        print('Price in eth = {}'.format(result[0]))
+        estimated_price = str(round(result[0], 4))
+        print('Price in eth = {}'.format(estimated_price))
+        return jsonify({'classified_b64': img_base64, 'price': estimated_price})
     except Exception as e:
         print('Error loading model, error = {}'.format(e))   
     return jsonify({'classified_b64': img_base64})

@@ -15,8 +15,15 @@ async function upload_image(image) {
         console.log(err);
     });
     const res_b64 = data['classified_b64'];
+    let estimated_price = 0;
+    try {
+        estimated_price = parseFloat(data['price']);
+    } catch (e) {
+        estimated_price = "Error predicting price, contact admin"
+    }
     const innerHTML = `<p><h2> Result: </h2></p>
-                       <img src="data:image/png;base64,${res_b64}" alt="Classified Image">`;
+                <img src="data:image/png;base64,${res_b64}" alt="Classified Image">
+                <p><h5> Estimated Price: ${estimated_price} ETH </h3><p>`;
     document.getElementById('predictedImage').innerHTML = innerHTML;
     document.getElementById('hasUploaded1').remove();
     document.getElementById('hasUploaded2').remove();
