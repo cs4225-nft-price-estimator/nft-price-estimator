@@ -1,8 +1,8 @@
-const development_url = 'http://127.0.0.1:5000/api/estimate'
+const post_url = `${window.location.href}/api/estimate`
 
 async function upload_image(image) {
     console.log("Upload and classify called!");
-    const data = await fetch(development_url, {
+    const data = await fetch('api/estimate', {
         method: 'POST',
         body: JSON.stringify({"image_b64": image}),
         headers: {
