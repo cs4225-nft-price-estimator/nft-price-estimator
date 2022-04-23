@@ -12,6 +12,12 @@ from flask_cors import CORS
 import base64
 from io import BytesIO
 
+# For Model
+# import pandas
+# from sklearn import model_selection
+import pickle
+from sklearn.linear_model import LinearRegression
+
 
 def display_image(image):
   fig = plt.figure(figsize=(20, 15))
@@ -77,12 +83,21 @@ def upload_image():
 
 @app.route('/api/estimate', methods=['POST'])
 def classify():
-    time.sleep(10)
-    print("called...")
+    print("called... wait 5 seconds")
+    time.sleep(5)
     data = request.get_json()
     img = data['image_b64']
+    print('Type of img = {}'.format(type(img)))
     classified_img = img
+    try:
+        filename = 'nft_estimator_model.sav'
+        loaded_model: LinearRegression = pickle.load(open(filename, 'rb'))
+        # result = loaded_model.predict(img)
+        print('Model loaded, type = {}'.format(type(loaded_model)))
+        # return jsonify({'classified_b64': classified_img, 'result': result})
+    except:
+        print('Error loading model')   
     return jsonify({'classified_b64': classified_img})
 
 if __name__ == "__main__":
-    app.run()
+    app.run(debug=True)
