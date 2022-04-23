@@ -6,4 +6,5 @@
 /scraper/assets/*
 /scraper/scraped_api_collections/*
 /scraper/scraped_collections/*
+/static/uploads/*
 /env
