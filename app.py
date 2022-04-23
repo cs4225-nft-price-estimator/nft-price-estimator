@@ -82,7 +82,7 @@ def upload_image():
     if file and allowed_file(file.filename):
         encoded_string = base64.b64encode(file.read())
         encoded_string = encoded_string.decode('utf-8')
-        flash('Image successfully uploaded and displayed below')
+        flash('Image successfully uploaded and displayed.')
         return render_template('index.html', image_base64=encoded_string)
     else:
         flash('Allowed image types are - png, jpg, jpeg, gif')
