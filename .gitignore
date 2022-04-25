@@ -8,3 +8,8 @@
 /scraper/scraped_collections/*
 /static/uploads/*
 /env
+
+# dev
+/scraped_api_collections/*
+/scraped_images/*
+/nft_predictor-copy-marcus.ipynb
