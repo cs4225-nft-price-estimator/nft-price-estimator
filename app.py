@@ -1,3 +1,4 @@
+import math
 import os
 import matplotlib.pyplot as plt
 import tempfile
@@ -18,16 +19,12 @@ from io import BytesIO
 # import pandas
 # from sklearn import model_selection
 import pickle
-from sklearn.linear_model import LinearRegression
 from sklearn.svm import SVR
 from PIL import Image
 import tensorflow as tf
-from tensorflow import keras
 from keras.preprocessing import image
-# from keras.applications.vgg16 import preprocess_input
-from keras.applications.resnet_v2 import preprocess_input
-from keras.applications.vgg16 import VGG16
-from keras.applications.resnet_v2 import ResNet50V2
+# from keras.applications.vgg16 import VGG16, preprocess_input
+from keras.applications.resnet_v2 import ResNet50V2, preprocess_input
 
 def display_image(image):
   fig = plt.figure(figsize=(20, 15))
@@ -126,7 +123,7 @@ def classify():
         feature = features[0].flatten()[:100352]
         feature_arr = feature.reshape(1,100352)
         result = nft_model.predict(feature_arr)
-        estimated_price = str(round(result[0], 4))
+        estimated_price = str(3 * math.exp(result[0]))
         print('Price in eth = {}'.format(estimated_price))
         return jsonify({'classified_b64': img_base64, 'price': estimated_price})
     except Exception as e:

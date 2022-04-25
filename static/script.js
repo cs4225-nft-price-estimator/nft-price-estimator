@@ -15,7 +15,7 @@ async function upload_image(image) {
         console.log(err);
     });
     const res_b64 = data['classified_b64'];
-    const estimated_price = parseFloat(data['price']);
+    const estimated_price = parseFloat(data['price']).toFixed(4);
     const innerHTML = `<p class="mt-ne3"><h2> Result: </h2></p>
                 <img src="data:image/png;base64,${res_b64}" alt="Classified Image">
                 <p><h5 class="text-success"> Estimated Price: ${estimated_price} ETH </h3><p>`;
