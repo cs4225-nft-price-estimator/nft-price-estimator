@@ -15,3 +15,5 @@
 /nft_predictor-copy-marcus.ipynb
 /nft_estimator_model_SVR_5K.sav
 /nft_estimator_model.sav
+/outputs/*
+/local-model.py

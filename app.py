@@ -94,7 +94,7 @@ model = ResNet50V2(weights="imagenet", include_top=False)
 @app.route('/api/estimate', methods=['POST'])
 def classify():
     print("called... wait 2 seconds to add loading effect")
-    time.sleep(2)
+    time.sleep(1)
     data = request.get_json()
     img_base64 = data['image_b64']
     print('Type of img = {}'.format(type(img_base64)))
@@ -114,7 +114,9 @@ def classify():
     img_array = preprocess_input(img_array)
     try:
         # filename = 'nft_estimator_model.sav'
-        filename = 'nft_estimator_model_SVR_5K.sav'
+        # filename = 'nft_estimator_model_SVR_5K.sav'
+        rootdir = os.getcwd() 
+        filename = '{}/outputs/nft_estimator_model-local.sav'.format(rootdir)
         # nft_model: LinearRegression = pickle.load(open(filename, 'rb'))
         nft_model: SVR = pickle.load(open(filename, 'rb'))
         features = model.predict(img_array)
@@ -123,7 +125,7 @@ def classify():
         feature = features[0].flatten()[:100352]
         feature_arr = feature.reshape(1,100352)
         result = nft_model.predict(feature_arr)
-        estimated_price = str(3 * math.exp(result[0]))
+        estimated_price = str(math.exp(result[0]))
         print('Price in eth = {}'.format(estimated_price))
         return jsonify({'classified_b64': img_base64, 'price': estimated_price})
     except Exception as e:
