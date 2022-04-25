@@ -24,7 +24,8 @@ from PIL import Image
 import tensorflow as tf
 from tensorflow import keras
 from keras.preprocessing import image
-from keras.applications.vgg16 import preprocess_input
+# from keras.applications.vgg16 import preprocess_input
+from keras.applications.resnet_v2 import preprocess_input
 from keras.applications.vgg16 import VGG16
 from keras.applications.resnet_v2 import ResNet50V2
 
