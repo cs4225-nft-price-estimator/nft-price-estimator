@@ -19,12 +19,14 @@ from io import BytesIO
 # from sklearn import model_selection
 import pickle
 from sklearn.linear_model import LinearRegression
+from sklearn.svm import SVR
 from PIL import Image
 import tensorflow as tf
 from tensorflow import keras
 from keras.preprocessing import image
 from keras.applications.vgg16 import preprocess_input
 from keras.applications.vgg16 import VGG16
+from keras.applications.resnet_v2 import ResNet50V2
 
 def display_image(image):
   fig = plt.figure(figsize=(20, 15))
@@ -88,7 +90,8 @@ def upload_image():
         flash('Allowed image types are - png, jpg, jpeg, gif')
         return redirect(request.url)
 
-model = VGG16(weights="imagenet", include_top=False)
+# model = VGG16(weights="imagenet", include_top=False)
+model = ResNet50V2(weights="imagenet", include_top=False)
 
 @app.route('/api/estimate', methods=['POST'])
 def classify():
@@ -112,11 +115,15 @@ def classify():
     img_array = np.expand_dims(img_array, axis=0)
     img_array = preprocess_input(img_array)
     try:
-        filename = 'nft_estimator_model.sav'
-        nft_model: LinearRegression = pickle.load(open(filename, 'rb'))
+        # filename = 'nft_estimator_model.sav'
+        filename = 'nft_estimator_model_SVR_5K.sav'
+        # nft_model: LinearRegression = pickle.load(open(filename, 'rb'))
+        nft_model: SVR = pickle.load(open(filename, 'rb'))
         features = model.predict(img_array)
-        feature = features[0].flatten()[:25088]
-        feature_arr = feature.reshape(1,25088)
+        # feature = features[0].flatten()[:25088]
+        # feature_arr = feature.reshape(1,25088)
+        feature = features[0].flatten()[:100352]
+        feature_arr = feature.reshape(1,100352)
         result = nft_model.predict(feature_arr)
         estimated_price = str(round(result[0], 4))
         print('Price in eth = {}'.format(estimated_price))
