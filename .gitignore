@@ -6,5 +6,14 @@
 /scraper/assets/*
 /scraper/scraped_api_collections/*
 /scraper/scraped_collections/*
-!/scraper/scraped_collections/sample_mirlclub.json
+/static/uploads/*
 /env
+
+# dev
+/scraped_api_collections/*
+/scraped_images/*
+/nft_predictor-copy-marcus.ipynb
+/nft_estimator_model_SVR_5K.sav
+/nft_estimator_model.sav
+/outputs/*
+/local-model.py

@@ -1,6 +1,7 @@
 {
   "name": "cs4225-project",
   "version": "1.0.0",
+  "license": "UNLICENSED",
   "description": "CS4225/5425 project",
   "main": "index.js",
   "scripts": {
@@ -10,14 +11,16 @@
     "dev-run": "flask run",
     "scrape": "python ./scraper/scraper.py",
     "scrape-api": "python ./scraper/scraper-api.py",
-    "init": "python -m pip install -r requirements.txt"
+    "init": "python -m pip install -r requirements.txt",
+    "venv": "python -m venv env",
+    "act": "source env/bin/activate",
+    "act-ms": "env/Scripts/activate"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/cs4225-nft-price-estimator/nft-price-estimator.git"
   },
   "author": "",
-  "license": "ISC",
   "bugs": {
     "url": "https://github.com/cs4225-nft-price-estimator/nft-price-estimator/issues"
   },

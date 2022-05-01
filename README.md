@@ -1,12 +1,20 @@
 # nft-price-estimator
 
 CS4225/5425 project
+## Important notes
+1. `/nft_estimator_model.sav` is not the actual model we used because the actual fully trained model is very large
+2. `/sample` contains sample metadata and images scraped.
+3. (FYI) `/sample/images/testImage.png` is not an existing NFT and `/sample/images/mad-hare-society-2-#2676.png` is an NFT existing on Crypto.com/nft, not listed on OpenSea marketplace. These are samples of our unseen dataset we used to test our model.
+
+## Set up Python Virtual Environment
+1. Create virtual environment: `yarn run venv`
+2. Activate python virtual environment: `yarn run act` or `env/Scripts/activate`
+3. Install dependencies: `yarn run init`
 
 ## To use scraper module
-1. Install Python
-2. `yarn install`
-3. `yarn run init`
-4. `yarn run scrape`
+1. Install Python 
+2. [Set up Python Virtual Environment](#set-up-python-virtual-environment)
+3. `yarn run scrape`
 Note: you can use npm if you wish
 
 NFT object data { price: float, id: str, name: str, image: str }
@@ -16,21 +24,31 @@ NFT object data { price: float, id: str, name: str, image: str }
     ```sh
     git clone https://github.com/cs4225-nft-price-estimator/nft-price-estimator
     ```
+
 2. (Optional) If you don't have Python, you can follow the guide to install Python 3.9.8 [here](https://www.python.org/downloads/release/python-398/). Do not use the latest Python 3.10 version as Tensorflow is not supported.
 
-3. Install the required dependencies
+3. Create a python virtual environment 
     ```sh
-    pip install -r requirements.txt
+    yarn run venv
+    yarn run act
+    yarn run init
     ```
-    or
+    Windows (Powershell):
     ```sh
-    pip3 install -r requirements.txt
+    yarn run venv
+    env/Scripts/activate
+    yarn run init
     ```
     
-4. Lastly, you can run the application using Flask
+4. Lastly, you can run the application locally using Flask
     ```sh
     export FLASK_APP=app
     export FLASK_ENV=development
+    flask run
+    ```
+    Windows:
+    ```sh
+    $env:FLASK_ENV = "development"
     flask run
     ```
 
