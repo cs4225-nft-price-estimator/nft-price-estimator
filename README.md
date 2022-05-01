@@ -1,6 +1,10 @@
 # nft-price-estimator
 
 CS4225/5425 project
+## Important notes
+1. `/nft_estimator_model.sav` is not the actual model we used because the actual fully trained model is very large
+2. `/sample` contains sample metadata and images scraped.
+3. (FYI) `/sample/images/testImage.png` is not an existing NFT and `/sample/images/mad-hare-society-2-#2676.png` is an NFT existing on Crypto.com/nft, not listed on OpenSea marketplace. These are samples of our unseen dataset we used to test our model.
 
 ## Set up Python Virtual Environment
 1. Create virtual environment: `yarn run venv`
@@ -36,7 +40,7 @@ NFT object data { price: float, id: str, name: str, image: str }
     yarn run init
     ```
     
-4. Lastly, you can run the application using Flask
+4. Lastly, you can run the application locally using Flask
     ```sh
     export FLASK_APP=app
     export FLASK_ENV=development

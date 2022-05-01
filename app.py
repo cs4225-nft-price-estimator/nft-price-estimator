@@ -1,70 +1,31 @@
+import math
 import os
-import matplotlib.pyplot as plt
-import tempfile
-from urllib.request import urlopen
 import numpy as np
-from six import BytesIO
-from PIL import Image
-from PIL import ImageOps
 import time
 
 # For Flask app
 from flask import Flask, flash, jsonify, request, redirect, render_template
 from flask_cors import CORS
 import base64
-from io import BytesIO
 
-# For Model
-# import pandas
-# from sklearn import model_selection
+# For Machine Learning Model
 import pickle
-from sklearn.linear_model import LinearRegression
-from PIL import Image
+from sklearn.svm import SVR
 import tensorflow as tf
-from tensorflow import keras
 from keras.preprocessing import image
-from keras.applications.vgg16 import preprocess_input
-from keras.applications.vgg16 import VGG16
-
-def display_image(image):
-  fig = plt.figure(figsize=(20, 15))
-  plt.grid(False)
-  plt.imshow(image)
-
-
-def download_and_resize_image(url, new_width=256, new_height=256,
-                              display=False):
-  _, filename = tempfile.mkstemp(suffix=".jpg")
-  response = urlopen(url)
-  image_data = response.read()
-  image_data = BytesIO(image_data)
-  pil_image = Image.open(image_data)
-  pil_image = ImageOps.fit(pil_image, (new_width, new_height), Image.ANTIALIAS)
-  pil_image_rgb = pil_image.convert("RGB")
-  pil_image_rgb.save(filename, format="JPEG", quality=90)
-  print("Image downloaded to %s." % filename)
-  if display:
-    display_image(pil_image)
-  return filename
+from keras.applications.resnet_v2 import ResNet50V2, preprocess_input
 
 app = Flask(__name__)
 CORS(app)
- 
-UPLOAD_FOLDER = 'static/uploads/'
 
+rootdir = os.getcwd()
+UPLOAD_FOLDER = 'static/uploads/'
 app.secret_key = "secret key"
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
-# app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024
- 
 ALLOWED_EXTENSIONS = set(['png', 'jpg', 'jpeg', 'gif'])
  
 def allowed_file(filename):
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
-
-def get_default_img():
-    with open('img.txt') as f:
-        lines = f.readlines()
-        return lines[0]
 
 @app.route('/')
 def home():
@@ -88,15 +49,15 @@ def upload_image():
         flash('Allowed image types are - png, jpg, jpeg, gif')
         return redirect(request.url)
 
-model = VGG16(weights="imagenet", include_top=False)
+# Model and config
+model = ResNet50V2(weights="imagenet", include_top=False)
+FLATTENED_LENGTH = 100352
 
 @app.route('/api/estimate', methods=['POST'])
 def classify():
-    print("called... wait 2 seconds to add loading effect")
-    time.sleep(2)
+    time.sleep(1) # Loading effect
     data = request.get_json()
     img_base64 = data['image_b64']
-    print('Type of img = {}'.format(type(img_base64)))
     base64_img_bytes = img_base64.encode('utf-8')
     path = os.path.join(app.config['UPLOAD_FOLDER'], 'target_img.png')
     with open(path, 'wb') as file_to_save:
@@ -105,20 +66,21 @@ def classify():
     try:
         img = image.load_img(path, target_size=(224, 224))
     except Exception as e: 
-        print('Error loading image: {}'.format(e))
+        flash('Error laoding image: {}'.format(e))
+        return redirect(request.url)
     img = tf.io.read_file(path)
     img = tf.image.decode_jpeg(img, channels=3)
     img_array = image.img_to_array(img)
     img_array = np.expand_dims(img_array, axis=0)
     img_array = preprocess_input(img_array)
-    try:
-        filename = 'nft_estimator_model.sav'
-        nft_model: LinearRegression = pickle.load(open(filename, 'rb'))
+    try: 
+        filename = '{}/nft_estimator_model.sav'.format(rootdir)
+        nft_model: SVR = pickle.load(open(filename, 'rb'))
         features = model.predict(img_array)
-        feature = features[0].flatten()[:25088]
-        feature_arr = feature.reshape(1,25088)
+        feature = features[0].flatten()[:FLATTENED_LENGTH]
+        feature_arr = feature.reshape(1,FLATTENED_LENGTH)
         result = nft_model.predict(feature_arr)
-        estimated_price = str(round(result[0], 4))
+        estimated_price = str(math.exp(result[0]))
         print('Price in eth = {}'.format(estimated_price))
         return jsonify({'classified_b64': img_base64, 'price': estimated_price})
     except Exception as e:

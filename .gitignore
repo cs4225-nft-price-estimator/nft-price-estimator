@@ -8,3 +8,12 @@
 /scraper/scraped_collections/*
 /static/uploads/*
 /env
+
+# dev
+/scraped_api_collections/*
+/scraped_images/*
+/nft_predictor-copy-marcus.ipynb
+/nft_estimator_model_SVR_5K.sav
+/nft_estimator_model.sav
+/outputs/*
+/local-model.py
