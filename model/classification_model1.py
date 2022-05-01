@@ -1,4 +1,4 @@
-# Initial Classification model using TesorFlow's AlexNet (Not used in the end)
+# Initial classification model using TesorFlow's AlexNet (Not used in the end)
 # -*- coding: utf-8 -*-
 """model.ipynb
 
