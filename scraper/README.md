@@ -1,6 +1,7 @@
 ## To use scraper
-1. Install Python
-2. `pip install -r requirements.txt`
-3. `python scraper.py`
+1. Install Python >= 3.8
+2. Run `pip install -r requirements.txt`
+3. Replace API_KEY your own OpenSea API key.
+3. Run `python scraper.py`
 
 NFT object data { price: float, id: str, name: str, image: str }
