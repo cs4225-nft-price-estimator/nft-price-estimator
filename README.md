@@ -7,7 +7,7 @@ CS4225/5425 project
     .
     ├── model                   # ML models (not pretrained)
     ├── notebooks               # Actual notebooks containing the code used to scrape data/perform ML
-    ├── resources               # Resource files (alternatively `lib` or `app`)
+    ├── resources               # Resource files
     ├── static                  # JS code used in flask
     ├── templates               # HTML for frontend
     ├── requirements.txt        # Python packages
