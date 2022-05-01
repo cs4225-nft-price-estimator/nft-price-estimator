@@ -1,4 +1,4 @@
-# Initial Classification model using CNN (Not used in the end)
+# Initial classification model using CNN (Not used in the end)
 # -*- coding: utf-8 -*-
 """nft_CS5425 W_O ID.ipynb
 
