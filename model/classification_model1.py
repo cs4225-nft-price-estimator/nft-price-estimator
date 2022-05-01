@@ -1,3 +1,4 @@
+# Initial Classification model using TesorFlow's AlexNet (Not used in the end)
 # -*- coding: utf-8 -*-
 """model.ipynb
 
@@ -63,6 +64,7 @@ train_ds = train_ds.batch(batch_size=1, drop_remainder=True)
 # test_ds = tf.data.Dataset.from_tensor_slices((test_images, test_labels))
 # validation_ds = tf.data.Dataset.from_tensor_slices((validation_images, validation_labels))
 
+# (AlexNet architecture code snippet referenced from https://towardsdatascience.com/implementing-alexnet-cnn-architecture-using-tensorflow-2-0-and-keras-2113e090ad98)
 # Model - parameters can be tuned
 model = keras.models.Sequential([
     keras.layers.Conv2D(filters=96, kernel_size=(11,11), strides=(4,4), activation='relu', input_shape=(227,227,3)),
@@ -80,25 +82,19 @@ model = keras.models.Sequential([
     keras.layers.MaxPool2D(pool_size=(3,3), strides=(2,2)),
     keras.layers.Flatten(),
     keras.layers.Dense(4096, activation='relu'),
-    keras.layers.Dropout(0.5),
+    keras.layers.Dropout(0.8),
     keras.layers.Dense(4096, activation='relu'),
-    keras.layers.Dropout(0.5),
+    keras.layers.Dropout(0.8),
     keras.layers.Dense(10, activation='softmax')
 ])
 
 # using cross-entrophy as loss function, stochastic gradient descent with learning rate of 0.001 as optimizer
 # feel free to tune learning rate
-model.compile(loss='sparse_categorical_crossentropy',
-              optimizer=tf.optimizers.SGD(lr=0.001),
-              metrics=['accuracy'])
+model.compile(optimizer=tf.optimizers.SGD(lr=0.05), loss='categorical_crossentropy')
 model.summary()
 
 # check type
 train_ds
 
 # train model
-model.fit(train_ds,
-          epochs=1,
-          validation_data=train_ds,
-          validation_freq=1)#,)
-          #callbacks=[tensorboard_cb])
+model.fit(train_ds)
